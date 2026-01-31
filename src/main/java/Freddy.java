@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Freddy {
     public static final String reply = "Freddy: ";
-    public static ArrayList<String> todo = new ArrayList<>();
+    public static ArrayList<Task> todo = new ArrayList<>();
 
     public static void main(String[] args) {
         greet();
@@ -42,14 +42,42 @@ public class Freddy {
 
         while (!str.equals("bye")){
             printline();
-            switch (str){
-            case "list":
-                for (int i = 0; i < todo.size(); i++){
-                    System.out.println(String.valueOf(i+1)+". "+todo.get(i));
+            String[] words = str.split(" ");
+            switch (words[0]){
+
+            case "mark":
+                if (words.length != 2 || ! isAllDigits(words[1])){
+                    System.out.println(reply+"Remember to add an index after mark");
+                    break;
                 }
+                int index = Integer.parseInt(words[1]) - 1;
+                if (index >= todo.size()){
+                    System.out.println(reply+"Oops, we don't have so many task");
+                    break;
+                }
+                todo.get(index).check();
                 break;
+            case "unmark":
+                if (words.length != 2 || ! isAllDigits(words[1])){
+                    System.out.println(reply+"Remember to add an index after unmark");
+                    break;
+                }
+                int index1 = Integer.parseInt(words[1]) - 1;
+                if (index1 >= todo.size()){
+                    System.out.println(reply+"Oops, we don't have so many task");
+                    break;
+                }
+                todo.get(index1).uncheck();
+                break;
+            case "list":
+                if (words.length == 1) {
+                    for (int i = 0; i < todo.size(); i++) {
+                        System.out.println(String.valueOf(i + 1) + ". " + todo.get(i).get_detail());
+                    }
+                    break;
+                }
             default:
-                todo.add(str);
+                todo.add(new Task(str));
                 System.out.println(reply+str+" is added for you");
 
             }
@@ -58,6 +86,18 @@ public class Freddy {
         }
         scan.close();
         return str;
+    }
+
+    public static boolean isAllDigits(String str) {
+        if (str == null || str.isEmpty()) {
+            return false;
+        }
+        for (char ch : str.toCharArray()) {
+            if (!Character.isDigit(ch)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
