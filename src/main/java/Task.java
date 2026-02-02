@@ -1,9 +1,16 @@
 public class Task {
     private String description;
+    private String type;
     private boolean done = false;
+
+    public Task(String description, String type){
+        this.description = description;
+        this.type = type;
+    }
 
     public Task(String description){
         this.description = description;
+        type = "[ ]";
     }
 
     public void check(){
@@ -31,10 +38,10 @@ public class Task {
         if (done){
             box = "[X] ";
         }
-        return box+description;
+        return type+box+description;
     }
 
-    private void print_detail(){
+    public void print_detail(){
         System.out.println(get_detail());
     }
 }
