@@ -46,24 +46,24 @@ public class Freddy {
             String remain = remove_first(str);
             switch (words[0].toLowerCase()){
             case "mark":
-                if (words.length != 2 || ! isAllDigits(words[1])){
+                if (words.length != 2 || ! isAllDigits(words[1])){//Check if input follows requirement
                     System.out.println(reply+"Remember to add an index after mark");
                     break;
                 }
                 int index = Integer.parseInt(words[1]) - 1;
-                if (index >= todo.size()){
+                if (index >= todo.size()){ //Check if task is beyond limit
                     System.out.println(reply+"Oops, we don't have so many task");
                     break;
                 }
                 todo.get(index).check();
                 break;
             case "unmark":
-                if (words.length != 2 || ! isAllDigits(words[1])){
+                if (words.length != 2 || ! isAllDigits(words[1])){ //Check if input follows requirement
                     System.out.println(reply+"Remember to add an index after unmark");
                     break;
                 }
                 int index1 = Integer.parseInt(words[1]) - 1;
-                if (index1 >= todo.size()){
+                if (index1 >= todo.size()){ //Check if task is beyond limit
                     System.out.println(reply+"Oops, we don't have so many task");
                     break;
                 }
@@ -85,7 +85,7 @@ public class Freddy {
             case "deadline":
             case "ddl":
                 String[] temp = remain.split(" /by ");
-                if (temp.length == 1){
+                if (temp.length == 1){ //Check if input follows requirement
                     System.out.println(reply+"Please include a /by in your deadline");
                     break;
                 }
@@ -95,12 +95,12 @@ public class Freddy {
             case "event":
             case "e":
                 String[] temp1 = remain.split(" /from ");
-                if (temp1.length == 1){
+                if (temp1.length == 1){ //Check if input follows requirement
                     System.out.println(reply+"Please include a /from in your event");
                     break;
                 }
                 String[] temp2 = temp1[1].split("/to");
-                if (temp2.length == 1){
+                if (temp2.length == 1){ //Check if input follows requirement
                     System.out.println(reply+"Please include a /to in your event");
                     break;
                 }
@@ -118,6 +118,7 @@ public class Freddy {
         return str;
     }
 
+    //Function used to check user input validity
     public static boolean isAllDigits(String str) {
         if (str == null || str.isEmpty()) {
             return false;
