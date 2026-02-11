@@ -1,4 +1,6 @@
-public class Event extends Task{
+package freddy.task;
+
+public class Event extends Task {
     private final String type = "[E]";
     private String start;
     private String end;

@@ -1,3 +1,7 @@
+package freddy.task;
+
+import freddy.Freddy;
+
 public class Task {
     private String description;
     private String type;

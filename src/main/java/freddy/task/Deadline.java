@@ -1,4 +1,6 @@
-public class Deadline extends Task{
+package freddy.task;
+
+public class Deadline extends Task {
     private String type = "[D]";
     private String date;
     //private String description;

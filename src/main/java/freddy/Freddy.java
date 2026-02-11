@@ -1,3 +1,10 @@
+package freddy;
+
+import freddy.task.Task;
+import freddy.task.Deadline;
+import freddy.task.Todo;
+import freddy.task.Event;
+import freddy.exception.FreddyException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -14,7 +21,7 @@ public class Freddy {
                     break;
                 }
             }catch (FreddyException e){
-                System.out.println(e);
+                System.out.println(e.getMessage());
                 printline();
             }
         }
@@ -86,7 +93,7 @@ public class Freddy {
                     }
                 }
                 else{
-                    throw new FreddyException("Use list and no other arguments to list out items");
+                    throw new FreddyException(reply+"Use list and no other arguments to list out items");
                 }
                 break;
             case "todo":

@@ -1,3 +1,5 @@
+package freddy.exception;
+
 public class FreddyException extends Exception{
     public FreddyException(){
         super();
