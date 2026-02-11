@@ -7,9 +7,18 @@ public class Freddy {
 
     public static void main(String[] args) {
         greet();
-        if (respond().equals("bye")){
-            bye();
+        while (true){
+            try{
+                if (respond().equals("bye")){
+                    bye();
+                    break;
+                }
+            }catch (FreddyException e){
+                System.out.println(e);
+                printline();
+            }
         }
+
     }
 
     public static void greet(){
@@ -36,7 +45,7 @@ public class Freddy {
         printline();
     }
 
-    public static String respond(){
+    public static String respond() throws FreddyException {
         Scanner scan = new Scanner(System.in);
         String str = scan.nextLine();
 
@@ -47,38 +56,46 @@ public class Freddy {
             switch (words[0].toLowerCase()){
             case "mark":
                 if (words.length != 2 || ! isAllDigits(words[1])){//Check if input follows requirement
-                    System.out.println(reply+"Remember to add an index after mark");
-                    break;
+                    System.out.println();
+                    throw new FreddyException(reply+"Remember to add an index after mark");
                 }
                 int index = Integer.parseInt(words[1]) - 1;
                 if (index >= todo.size()){ //Check if task is beyond limit
-                    System.out.println(reply+"Oops, we don't have so many task");
-                    break;
+                    //System.out.println();
+                    throw new FreddyException(reply+"Oops, we don't have so many task");
                 }
                 todo.get(index).check();
                 break;
             case "unmark":
                 if (words.length != 2 || ! isAllDigits(words[1])){ //Check if input follows requirement
-                    System.out.println(reply+"Remember to add an index after unmark");
-                    break;
+                    //System.out.println();
+                    throw new FreddyException(reply+"Remember to add an index after unmark");
                 }
                 int index1 = Integer.parseInt(words[1]) - 1;
                 if (index1 >= todo.size()){ //Check if task is beyond limit
-                    System.out.println(reply+"Oops, we don't have so many task");
-                    break;
+                    throw new FreddyException(reply+"Oops, we don't have so many task");
                 }
                 todo.get(index1).uncheck();
                 break;
             case "list":
             case "l":
                 if (words.length == 1) {
+                    if (todo.size()==0){
+                        throw new FreddyException(reply+"There's no task now!");
+                    }
                     for (int i = 0; i < todo.size(); i++) {
                         System.out.println(String.valueOf(i + 1) + ". " + todo.get(i).get_detail());
                     }
-                    break;
                 }
+                else{
+                    throw new FreddyException("Use list and no other arguments to list out items");
+                }
+                break;
             case "todo":
             case "t":
+                if (words.length==1){
+                    throw new FreddyException("Please enter your todos after todo command");
+                }
                 todo.add(new Todo(remain));
                 adding(remain);
                 break;
@@ -86,8 +103,7 @@ public class Freddy {
             case "ddl":
                 String[] temp = remain.split(" /by ");
                 if (temp.length == 1){ //Check if input follows requirement
-                    System.out.println(reply+"Please include a /by in your deadline");
-                    break;
+                    throw new FreddyException(reply+"Please include a /by in your deadline");
                 }
                 todo.add(new Deadline(temp[0],temp[1]));
                 adding(temp[0]);
@@ -96,13 +112,11 @@ public class Freddy {
             case "e":
                 String[] temp1 = remain.split(" /from ");
                 if (temp1.length == 1){ //Check if input follows requirement
-                    System.out.println(reply+"Please include a /from in your event");
-                    break;
+                    throw new FreddyException(reply+"Please include a /from in your event");
                 }
                 String[] temp2 = temp1[1].split("/to");
                 if (temp2.length == 1){ //Check if input follows requirement
-                    System.out.println(reply+"Please include a /to in your event");
-                    break;
+                    throw new FreddyException(reply+"Please include a /to in your event");
                 }
                 todo.add(new Event(temp1[0],temp2[0],temp2[1]));
                 adding(temp1[0]);
