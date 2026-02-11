@@ -61,14 +61,12 @@ public class Freddy {
                 }
                 int index = Integer.parseInt(words[1]) - 1;
                 if (index >= todo.size()){ //Check if task is beyond limit
-                    //System.out.println();
                     throw new FreddyException(reply+"Oops, we don't have so many task");
                 }
                 todo.get(index).check();
                 break;
             case "unmark":
                 if (words.length != 2 || ! isAllDigits(words[1])){ //Check if input follows requirement
-                    //System.out.println();
                     throw new FreddyException(reply+"Remember to add an index after unmark");
                 }
                 int index1 = Integer.parseInt(words[1]) - 1;
@@ -80,7 +78,7 @@ public class Freddy {
             case "list":
             case "l":
                 if (words.length == 1) {
-                    if (todo.size()==0){
+                    if (todo.size() == 0){
                         throw new FreddyException(reply+"There's no task now!");
                     }
                     for (int i = 0; i < todo.size(); i++) {
@@ -93,7 +91,7 @@ public class Freddy {
                 break;
             case "todo":
             case "t":
-                if (words.length==1){
+                if (words.length == 1){
                     throw new FreddyException("Please enter your todos after todo command");
                 }
                 todo.add(new Todo(remain));
@@ -154,10 +152,10 @@ public class Freddy {
     public static String remove_first(String s){
         s = s.trim();
         boolean blank = false;
-        for (int i=1; i<s.length(); i++){
-            if (s.charAt(i)==' '){blank = true;}
+        for (int i = 1; i < s.length(); i++){
+            if (s.charAt(i) == ' '){blank = true;}
             else if(blank){
-                s=s.substring(i);
+                s = s.substring(i);
                 break;
             }
         }
