@@ -21,7 +21,7 @@ public class Freddy {
                     break;
                 }
             }catch (FreddyException e){
-                System.out.println(e);
+                System.out.println(e.getMessage());
                 printline();
             }
         }
@@ -93,7 +93,7 @@ public class Freddy {
                     }
                 }
                 else{
-                    throw new FreddyException("Use list and no other arguments to list out items");
+                    throw new FreddyException(reply+"Use list and no other arguments to list out items");
                 }
                 break;
             case "todo":
