@@ -1,3 +1,10 @@
+package freddy;
+
+import freddy.task.Task;
+import freddy.task.Deadline;
+import freddy.task.Todo;
+import freddy.task.Event;
+import freddy.exception.FreddyException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
