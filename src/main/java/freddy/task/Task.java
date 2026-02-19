@@ -17,6 +17,12 @@ public class Task {
         type = "[ ]";
     }
 
+    public Task(String description, String type, boolean done){
+        this.description = description;
+        this.type = type;
+        this.done = done;
+    }
+
     public void check(){
         if (done){
             System.out.println(Freddy.reply+"Seems that it has already been checked!");
@@ -47,5 +53,14 @@ public class Task {
 
     public void print_detail(){
         System.out.println(get_detail());
+    }
+
+    public String write_detail(){
+        String split = " | ";
+        String status = "0";
+        if (done){
+            status = "1";
+        }
+        return type.charAt(1)+split+status+split+description;
     }
 }

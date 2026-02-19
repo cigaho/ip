@@ -11,6 +11,18 @@ public class Event extends Task {
         this.end = end;
     }
 
+    public Event(String description, String start,String end, boolean done){
+        super(description,"[E]",done);
+        this.start = start;
+        this.end = end;
+    }
+
+    public String write_detail(){
+        String s = super.write_detail();
+        String split = " | ";
+        return s + split + start + split + end;
+    }
+
     public String get_detail(){
         return super.get_detail()+" (from: "+start +" to: "+end+")";
     }
