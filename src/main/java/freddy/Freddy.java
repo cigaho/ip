@@ -169,4 +169,10 @@ public class Freddy {
         return s;
     }
 
+    public static void delete(int i){
+        System.out.println(reply+"Sure, the following task will be removed: ");
+        todo.get(i).print_detail();
+        todo.remove(i);
+    }
+
 }
