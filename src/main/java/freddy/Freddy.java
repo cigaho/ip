@@ -126,6 +126,18 @@ public class Freddy {
                 todo.add(new Event(temp1[0],temp2[0],temp2[1]));
                 adding(temp1[0]);
                 break;
+            case "delete":
+            case "d":
+                try{
+                    int i = Integer.parseInt(remain);
+                    if (i>=todo.size()){
+                        throw new FreddyException(reply+"We don't have so much tasks");
+                    }
+                    delete(i);
+                }catch (NumberFormatException e){
+                    throw new FreddyException(reply+"Please put a single number after delete");
+                }
+                break;
             default:
                 System.out.println(reply+" Please start your sentence with commands.");
                 System.out.println(reply+"Commands avaiable: list, mark, unmark, todo, event, deadline, bye");
@@ -167,6 +179,12 @@ public class Freddy {
             }
         }
         return s;
+    }
+
+    public static void delete(int i){
+        System.out.println(reply+"Sure, the following task will be removed: ");
+        todo.get(i).print_detail();
+        todo.remove(i);
     }
 
 }
