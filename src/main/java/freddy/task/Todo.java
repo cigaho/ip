@@ -12,4 +12,6 @@ public class Todo extends Task {
     public Todo(String desciption){
         super(desciption,"[T]");
     }
+
+    public Todo(String desciption, boolean done){super(desciption, "[T]", done);}
 }

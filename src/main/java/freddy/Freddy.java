@@ -5,15 +5,18 @@ import freddy.task.Deadline;
 import freddy.task.Todo;
 import freddy.task.Event;
 import freddy.exception.FreddyException;
+import freddy.storage.Storage;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Freddy {
     public static final String reply = "Freddy: ";
+    public static Storage io = new Storage();
     public static ArrayList<Task> todo = new ArrayList<>();
 
     public static void main(String[] args) {
         greet();
+        todo = io.readAll();
         while (true){
             try{
                 if (respond().equals("bye")){
@@ -25,6 +28,7 @@ public class Freddy {
                 printline();
             }
         }
+        io.writeAll(todo);
 
     }
 
@@ -55,12 +59,14 @@ public class Freddy {
     public static String respond() throws FreddyException {
         Scanner scan = new Scanner(System.in);
         String str = scan.nextLine();
-
+        boolean rewrite;
         while (!str.equals("bye")){
+            rewrite = true;
             printline();
             String[] words = str.split(" ");
             String remain = remove_first(str);
             switch (words[0].toLowerCase()){
+            case "check":
             case "mark":
                 if (words.length != 2 || ! isAllDigits(words[1])){//Check if input follows requirement
                     System.out.println();
@@ -72,6 +78,7 @@ public class Freddy {
                 }
                 todo.get(index).check();
                 break;
+            case "uncheck":
             case "unmark":
                 if (words.length != 2 || ! isAllDigits(words[1])){ //Check if input follows requirement
                     throw new FreddyException(reply+"Remember to add an index after unmark");
@@ -95,6 +102,7 @@ public class Freddy {
                 else{
                     throw new FreddyException(reply+"Use list and no other arguments to list out items");
                 }
+                rewrite = false;
                 break;
             case "todo":
             case "t":
@@ -129,8 +137,12 @@ public class Freddy {
             default:
                 System.out.println(reply+" Please start your sentence with commands.");
                 System.out.println(reply+"Commands avaiable: list, mark, unmark, todo, event, deadline, bye");
+                rewrite = false;
             }
             printline();
+            if (rewrite){
+                io.writeAll(todo);
+            }
             str = scan.nextLine();
         }
         scan.close();
