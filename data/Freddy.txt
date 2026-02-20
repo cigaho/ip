@@ -1,0 +1,3 @@
+E | 0 | huangyingrui attend 2113 lecture Friday 20 Feb 2026 | 4  |  6 pm
+T | 1 | dsio
+D | 0 | asio | 67

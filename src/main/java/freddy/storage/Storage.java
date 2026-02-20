@@ -13,8 +13,54 @@ public class Storage {
     private final static String path = "data/Freddy.txt";
     private final Path data;
 
-    public Storage(){
-        data = Paths.get(path);
+    public Storage() {
+        this.data = choosePath();
+        ensureDirectoryExists();
+    }
+
+    private Path choosePath() {
+        String jarDir = getJarDirectory();
+        Path jarDataPath = Paths.get(jarDir, "data", "Freddy.txt");
+        if (Files.exists(jarDataPath)) {
+            return jarDataPath;
+        }
+
+        Path currentDataPath = Paths.get("data", "Freddy.txt");
+        return currentDataPath;
+    }
+
+
+    private String getJarDirectory() {
+        try {
+            String classPath = Storage.class.getProtectionDomain()
+                    .getCodeSource().getLocation().toURI().getPath();
+
+            if (classPath.startsWith("/")) {
+                classPath = classPath.substring(1);
+            }
+
+            File classFile = new File(classPath);
+
+            if (classFile.isFile() && classPath.toLowerCase().endsWith(".jar")) {
+                return classFile.getParent();
+            } else {
+                return System.getProperty("user.dir");
+            }
+        } catch (Exception e) {
+            return System.getProperty("user.dir");
+        }
+    }
+
+
+    private void ensureDirectoryExists() {
+        try {
+            Path parent = data.getParent();
+            if (parent != null && !Files.exists(parent)) {
+                Files.createDirectories(parent);
+            }
+        } catch (IOException e) {
+            System.err.println("Freddy: Oops, data file can't be properly created.");
+        }
     }
 
     public void writeAll(ArrayList<Task> tasks){

@@ -29,7 +29,6 @@ public class Freddy {
             }
         }
         io.writeAll(todo);
-
     }
 
     public static void greet(){
@@ -138,10 +137,10 @@ public class Freddy {
             case "d":
                 try{
                     int i = Integer.parseInt(remain);
-                    if (i>=todo.size()){
+                    if (i>todo.size()){
                         throw new FreddyException(reply+"We don't have so much tasks");
                     }
-                    delete(i);
+                    delete(i-1);
                 }catch (NumberFormatException e){
                     throw new FreddyException(reply+"Please put a single number after delete");
                 }
