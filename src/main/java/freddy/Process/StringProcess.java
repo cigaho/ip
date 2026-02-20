@@ -1,6 +1,5 @@
 package freddy.Process;
 
-import freddy.Freddy;
 
 public class StringProcess {
     public StringProcess(){}

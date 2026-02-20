@@ -2,12 +2,10 @@ package freddy.ui;
 
 import freddy.Freddy;
 import freddy.Process.StringProcess;
-import freddy.task.Task;
 import freddy.task.Deadline;
 import freddy.task.Todo;
 import freddy.task.Event;
 import freddy.exception.FreddyException;
-import freddy.storage.Storage;
 import java.util.Scanner;
 
 public class UI {
@@ -59,7 +57,7 @@ public class UI {
                     throw new FreddyException(reply+"Remember to add an index after mark");
                 }
                 int index = Integer.parseInt(words[1]) - 1;
-                if (index >= Freddy.todo.size()){ //Check if task is beyond limit
+                if (index >= Freddy.todo.getSize()){ //Check if task is beyond limit
                     throw new FreddyException(reply+"Oops, we don't have so many task");
                 }
                 Freddy.todo.get(index).check();
@@ -70,7 +68,7 @@ public class UI {
                     throw new FreddyException(reply+"Remember to add an index after unmark");
                 }
                 int index1 = Integer.parseInt(words[1]) - 1;
-                if (index1 >= Freddy.todo.size()){ //Check if task is beyond limit
+                if (index1 >= Freddy.todo.getSize()){ //Check if task is beyond limit
                     throw new FreddyException(reply+"Oops, we don't have so many task");
                 }
                 Freddy.todo.get(index1).uncheck();
@@ -78,10 +76,10 @@ public class UI {
             case "list":
             case "l":
                 if (words.length == 1) {
-                    if (Freddy.todo.size() == 0){
+                    if (Freddy.todo.getSize() == 0){
                         throw new FreddyException(reply+"There's no task now!");
                     }
-                    for (int i = 0; i < Freddy.todo.size(); i++) {
+                    for (int i = 0; i < Freddy.todo.getSize(); i++) {
                         System.out.println(String.valueOf(i + 1) + ". " + Freddy.todo.get(i).get_detail());
                     }
                 }
@@ -95,8 +93,8 @@ public class UI {
                 if (words.length == 1){
                     throw new FreddyException("Please enter your todos after todo command");
                 }
-                Freddy.todo.add(new Todo(remain));
-                adding(remain);
+                Freddy.todo.addElement(new Todo(remain));
+                addPrompt(remain);
                 break;
             case "deadline":
             case "ddl":
@@ -104,8 +102,8 @@ public class UI {
                 if (temp.length == 1){ //Check if input follows requirement
                     throw new FreddyException(reply+"Please include a /by in your deadline");
                 }
-                Freddy.todo.add(new Deadline(temp[0],temp[1]));
-                adding(temp[0]);
+                Freddy.todo.addElement(new Deadline(temp[0],temp[1]));
+                addPrompt(temp[0]);
                 break;
             case "event":
             case "e":
@@ -117,17 +115,17 @@ public class UI {
                 if (temp2.length == 1){ //Check if input follows requirement
                     throw new FreddyException(reply+"Please include a /to in your event");
                 }
-                Freddy.todo.add(new Event(temp1[0],temp2[0],temp2[1]));
-                adding(temp1[0]);
+                Freddy.todo.addElement(new Event(temp1[0],temp2[0],temp2[1]));
+                addPrompt(temp1[0]);
                 break;
             case "delete":
             case "d":
                 try{
                     int i = Integer.parseInt(remain);
-                    if (i > Freddy.todo.size()){
+                    if (i > Freddy.todo.getSize()){
                         throw new FreddyException(reply+"We don't have so much tasks");
                     }
-                    delete(i-1);
+                    deletePrompt(i-1);
                 }catch (NumberFormatException e){
                     throw new FreddyException(reply+"Please put a single number after delete");
                 }
@@ -139,7 +137,7 @@ public class UI {
             }
             printline();
             if (rewrite){
-                Freddy.io.writeAll(Freddy.todo);
+                Freddy.io.writeAll(Freddy.todo.getList());
             }
             str = scan.nextLine();
         }
@@ -147,16 +145,16 @@ public class UI {
         return str;
     }
 
-    public static void adding(String str){
+    public static void addPrompt(String str){
         System.out.println(reply+str+" is added for you");
-        Freddy.todo.get(Freddy.todo.size()-1).print_detail();
-        System.out.println(reply+"You have "+String.valueOf(Freddy.todo.size())+" tasks in the list now");
+        Freddy.todo.get(Freddy.todo.getSize()-1).print_detail();
+        System.out.println(reply+"You have "+String.valueOf(Freddy.todo.getSize())+" tasks in the list now");
     }
 
-    public static void delete(int i){
+    public static void deletePrompt(int i){
         System.out.println(reply+"Sure, the following task will be removed: ");
         Freddy.todo.get(i).print_detail();
-        Freddy.todo.remove(i);
+        Freddy.todo.removeIndex(i);
     }
 
 
