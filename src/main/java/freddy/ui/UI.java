@@ -1,43 +1,46 @@
-package freddy;
+package freddy.ui;
 
+import freddy.Freddy;
+import freddy.Process.StringProcess;
 import freddy.task.Task;
 import freddy.task.Deadline;
 import freddy.task.Todo;
 import freddy.task.Event;
 import freddy.exception.FreddyException;
 import freddy.storage.Storage;
-import freddy.ui.UI;
-import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Freddy {
-    public static final String reply = "Freddy: ";
-    public static Storage io = new Storage();
-    public static UI ui = new UI();
-    public static ArrayList<Task> todo = new ArrayList<>();
-
-    public static void main(String[] args) {
-        ui.greet();
-        todo = io.readAll();
-        while (true){
-            try{
-                if (ui.respond().equals("bye")){
-                    ui.bye();
-                    break;
-                }
-            }catch (FreddyException e){
-                System.out.println(e.getMessage());
-                ui.printline();
-            }
-        }
-        io.writeAll(todo);
+public class UI {
+    private static String reply;
+    private static StringProcess sp;
+    public UI(){
+        reply = "Freddy: ";
+        sp = new StringProcess();
     }
 
+    public static void greet(){
+        String logo = ""+
+                "  _____   _____   ______  ____    ____   __   __\n" +
+                " |  ___| |  __ \\ |  ____||  _  \\ |  _  \\ \\ \\ / /\n" +
+                " | |__   | |__) || |__   | | | | | | | |  \\ V /\n" +
+                " |  __|  |  _  / |  __|  | | | | | | | |   | |\n" +
+                " | |     | | \\ \\ | |____ | |_| | | |_| |   | |\n" +
+                " |_|     |_|  \\_\\|______||____/  |____/    |_|\n";
+        printline();
+        System.out.println("Hello from\n" + logo);
+        System.out.println("What can I do for you?");
+        printline();
+    }
 
     public static void printline(){
         System.out.println("-----------------------------------------------");
     }
 
+    public static void bye(){
+        printline();
+        System.out.println(reply+"Bye. Hope to see you again soon!");
+        printline();
+    }
 
     public static String respond() throws FreddyException {
         Scanner scan = new Scanner(System.in);
@@ -47,39 +50,39 @@ public class Freddy {
             rewrite = true;
             printline();
             String[] words = str.split(" ");
-            String remain = remove_first(str);
+            String remain = sp.remove_first(str);
             switch (words[0].toLowerCase()){
             case "check":
             case "mark":
-                if (words.length != 2 || ! isAllDigits(words[1])){//Check if input follows requirement
+                if (words.length != 2 || ! sp.isAllDigits(words[1])){//Check if input follows requirement
                     System.out.println();
                     throw new FreddyException(reply+"Remember to add an index after mark");
                 }
                 int index = Integer.parseInt(words[1]) - 1;
-                if (index >= todo.size()){ //Check if task is beyond limit
+                if (index >= Freddy.todo.size()){ //Check if task is beyond limit
                     throw new FreddyException(reply+"Oops, we don't have so many task");
                 }
-                todo.get(index).check();
+                Freddy.todo.get(index).check();
                 break;
             case "uncheck":
             case "unmark":
-                if (words.length != 2 || ! isAllDigits(words[1])){ //Check if input follows requirement
+                if (words.length != 2 || ! sp.isAllDigits(words[1])){ //Check if input follows requirement
                     throw new FreddyException(reply+"Remember to add an index after unmark");
                 }
                 int index1 = Integer.parseInt(words[1]) - 1;
-                if (index1 >= todo.size()){ //Check if task is beyond limit
+                if (index1 >= Freddy.todo.size()){ //Check if task is beyond limit
                     throw new FreddyException(reply+"Oops, we don't have so many task");
                 }
-                todo.get(index1).uncheck();
+                Freddy.todo.get(index1).uncheck();
                 break;
             case "list":
             case "l":
                 if (words.length == 1) {
-                    if (todo.size() == 0){
+                    if (Freddy.todo.size() == 0){
                         throw new FreddyException(reply+"There's no task now!");
                     }
-                    for (int i = 0; i < todo.size(); i++) {
-                        System.out.println(String.valueOf(i + 1) + ". " + todo.get(i).get_detail());
+                    for (int i = 0; i < Freddy.todo.size(); i++) {
+                        System.out.println(String.valueOf(i + 1) + ". " + Freddy.todo.get(i).get_detail());
                     }
                 }
                 else{
@@ -92,7 +95,7 @@ public class Freddy {
                 if (words.length == 1){
                     throw new FreddyException("Please enter your todos after todo command");
                 }
-                todo.add(new Todo(remain));
+                Freddy.todo.add(new Todo(remain));
                 adding(remain);
                 break;
             case "deadline":
@@ -101,7 +104,7 @@ public class Freddy {
                 if (temp.length == 1){ //Check if input follows requirement
                     throw new FreddyException(reply+"Please include a /by in your deadline");
                 }
-                todo.add(new Deadline(temp[0],temp[1]));
+                Freddy.todo.add(new Deadline(temp[0],temp[1]));
                 adding(temp[0]);
                 break;
             case "event":
@@ -114,14 +117,14 @@ public class Freddy {
                 if (temp2.length == 1){ //Check if input follows requirement
                     throw new FreddyException(reply+"Please include a /to in your event");
                 }
-                todo.add(new Event(temp1[0],temp2[0],temp2[1]));
+                Freddy.todo.add(new Event(temp1[0],temp2[0],temp2[1]));
                 adding(temp1[0]);
                 break;
             case "delete":
             case "d":
                 try{
                     int i = Integer.parseInt(remain);
-                    if (i>todo.size()){
+                    if (i > Freddy.todo.size()){
                         throw new FreddyException(reply+"We don't have so much tasks");
                     }
                     delete(i-1);
@@ -136,7 +139,7 @@ public class Freddy {
             }
             printline();
             if (rewrite){
-                io.writeAll(todo);
+                Freddy.io.writeAll(Freddy.todo);
             }
             str = scan.nextLine();
         }
@@ -144,42 +147,18 @@ public class Freddy {
         return str;
     }
 
-    //Function used to check user input validity
-    public static boolean isAllDigits(String str) {
-        if (str == null || str.isEmpty()) {
-            return false;
-        }
-        for (char ch : str.toCharArray()) {
-            if (!Character.isDigit(ch)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public static void adding(String str){
         System.out.println(reply+str+" is added for you");
-        todo.get(todo.size()-1).print_detail();
-        System.out.println(reply+"You have "+String.valueOf(todo.size())+" tasks in the list now");
-    }
-
-    public static String remove_first(String s){
-        s = s.trim();
-        boolean blank = false;
-        for (int i = 1; i < s.length(); i++){
-            if (s.charAt(i) == ' '){blank = true;}
-            else if(blank){
-                s = s.substring(i);
-                break;
-            }
-        }
-        return s;
+        Freddy.todo.get(Freddy.todo.size()-1).print_detail();
+        System.out.println(reply+"You have "+String.valueOf(Freddy.todo.size())+" tasks in the list now");
     }
 
     public static void delete(int i){
         System.out.println(reply+"Sure, the following task will be removed: ");
-        todo.get(i).print_detail();
-        todo.remove(i);
+        Freddy.todo.get(i).print_detail();
+        Freddy.todo.remove(i);
     }
+
+
 
 }

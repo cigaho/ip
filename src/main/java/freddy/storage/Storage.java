@@ -101,7 +101,7 @@ public class Storage {
             System.out.println("You don't have a record yet, you must be new here!");
             System.out.println(Freddy.reply+" Please start your sentence with commands.");
             System.out.println(Freddy.reply+"Commands avaiable: list, mark, unmark, todo, event, deadline, bye");
-            Freddy.printline();
+            Freddy.ui.printline();
         }
         return temp;
     }
