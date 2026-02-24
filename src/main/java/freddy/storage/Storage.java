@@ -9,10 +9,16 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
+/**
+ * Storage class is used to read/write data from file
+ */
 public class Storage {
     private final static String path = "data/Freddy.txt";
     private final Path data;
 
+    /**
+     * Create a storage instance with specific path to file
+     */
     public Storage() {
         this.data = choosePath();
         ensureDirectoryExists();
@@ -28,7 +34,6 @@ public class Storage {
         Path currentDataPath = Paths.get("data", "Freddy.txt");
         return currentDataPath;
     }
-
 
     private String getJarDirectory() {
         try {
@@ -51,7 +56,6 @@ public class Storage {
         }
     }
 
-
     private void ensureDirectoryExists() {
         try {
             Path parent = data.getParent();
@@ -63,6 +67,10 @@ public class Storage {
         }
     }
 
+    /**
+     * write all recoded tasks into file
+     * @param tasks, all the recorded tasks
+     */
     public void writeAll(ArrayList<Task> tasks){
         ArrayList<String> lines = new ArrayList<>();
         for (Task t: tasks){
@@ -76,7 +84,10 @@ public class Storage {
 
     }
 
-
+    /**
+     * read data from file and store it into list
+     * @return the task list
+     */
     public ArrayList<Task> readAll(){
         ArrayList<Task> temp = new ArrayList<>();
         try {
@@ -101,9 +112,8 @@ public class Storage {
             System.out.println("You don't have a record yet, you must be new here!");
             System.out.println(Freddy.reply+" Please start your sentence with commands.");
             System.out.println(Freddy.reply+"Commands avaiable: list, mark, unmark, todo, event, deadline, bye");
-            Freddy.ui.printline();
+            System.out.println("-----------------------------------------------");
         }
         return temp;
     }
-
 }
