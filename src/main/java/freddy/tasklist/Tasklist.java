@@ -42,4 +42,14 @@ public class Tasklist {
         todo.remove(i);
         size-=1;
     }
+
+    public ArrayList<Task> find(String s){
+        ArrayList<Task> temp = new ArrayList<>();
+        for (Task t: todo){
+            if (t.getDescription().contains(s)){
+                temp.add(t);
+            }
+        }
+        return temp;
+    }
 }

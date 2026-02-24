@@ -6,13 +6,17 @@ public class StringProcess {
 
     public static String remove_first(String s){
         s = s.trim();
-        boolean blank = false;
+        boolean blank = false, modified = false;
         for (int i = 1; i < s.length(); i++){
             if (s.charAt(i) == ' '){blank = true;}
             else if(blank){
                 s = s.substring(i);
+                modified = true;
                 break;
             }
+        }
+        if (!modified){
+            return "";
         }
         return s;
     }

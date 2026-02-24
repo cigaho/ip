@@ -2,10 +2,12 @@ package freddy.ui;
 
 import freddy.Freddy;
 import freddy.Process.StringProcess;
+import freddy.task.Task;
 import freddy.task.Deadline;
 import freddy.task.Todo;
 import freddy.task.Event;
 import freddy.exception.FreddyException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UI {
@@ -79,9 +81,7 @@ public class UI {
                     if (Freddy.todo.getSize() == 0){
                         throw new FreddyException(reply+"There's no task now!");
                     }
-                    for (int i = 0; i < Freddy.todo.getSize(); i++) {
-                        System.out.println(String.valueOf(i + 1) + ". " + Freddy.todo.get(i).get_detail());
-                    }
+                    printList(Freddy.todo.getList());
                 }
                 else{
                     throw new FreddyException(reply+"Use list and no other arguments to list out items");
@@ -130,9 +130,25 @@ public class UI {
                     throw new FreddyException(reply+"Please put a single number after delete");
                 }
                 break;
+            case "find":
+            case "search":
+                if (remain.isEmpty()){
+                    throw new FreddyException(reply+"Add the keyword you want to search after find");
+                }
+                else{
+                    ArrayList<Task> tasks = Freddy.todo.find(remain);
+                    if (tasks.isEmpty()){
+                        throw new FreddyException(reply+"Oops, seems that there's no such a task in the list");
+                    }
+                    else{
+                        System.out.println(reply+"Sure, we find the following results for you:");
+                        printList(tasks);
+                    }
+                }
+                break;
             default:
                 System.out.println(reply+" Please start your sentence with commands.");
-                System.out.println(reply+"Commands avaiable: list, mark, unmark, todo, event, deadline, bye");
+                System.out.println(reply+"Commands avaiable: list, mark, unmark, todo, event, deadline, find, bye");
                 rewrite = false;
             }
             printline();
@@ -155,6 +171,12 @@ public class UI {
         System.out.println(reply+"Sure, the following task will be removed: ");
         Freddy.todo.get(i).print_detail();
         Freddy.todo.removeIndex(i);
+    }
+
+    public static void printList(ArrayList<Task> t){
+        for (int i = 0; i < t.size(); i++) {
+            System.out.println(String.valueOf(i + 1) + ". " +t.get(i).get_detail());
+        }
     }
 
 

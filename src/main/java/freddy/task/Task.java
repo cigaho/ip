@@ -63,4 +63,8 @@ public class Task {
         }
         return type.charAt(1)+split+status+split+description;
     }
+
+    public String getDescription(){
+        return description;
+    }
 }
