@@ -16,7 +16,7 @@ public class StringProcess {
             }
         }
         if (!modified){
-            return "";
+            s = "";
         }
         return s;
     }
