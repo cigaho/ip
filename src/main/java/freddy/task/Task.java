@@ -2,27 +2,48 @@ package freddy.task;
 
 import freddy.Freddy;
 
+/**
+ * the parent class of all tasks
+ */
 public class Task {
     private String description;
     private String type;
     private boolean done = false;
 
+    /**
+     * Create a task instance based on description and type
+     * @param description, the content of task
+     * @param type, represented by d, t, e
+     */
     public Task(String description, String type){
         this.description = description;
         this.type = type;
     }
 
+    /**
+     * Create a task instance without specify type
+     * @param description, the content of task
+     */
     public Task(String description){
         this.description = description;
         type = "[ ]";
     }
 
+    /**
+     * Create task instance including type and status
+     * @param description, content of task
+     * @param type, type of task
+     * @param done, true if it is done
+     */
     public Task(String description, String type, boolean done){
         this.description = description;
         this.type = type;
         this.done = done;
     }
 
+    /**
+     * Set the task's status to done
+     */
     public void check(){
         if (done){
             System.out.println(Freddy.reply+"Seems that it has already been checked!");
@@ -33,6 +54,9 @@ public class Task {
         print_detail();
     }
 
+    /**
+     * Set the task's status to not done
+     */
     public void uncheck(){
         if (!done){
             System.out.println(Freddy.reply+"Seems that it hasn't been checked yet!");
@@ -43,6 +67,10 @@ public class Task {
         print_detail();
     }
 
+    /**
+     * Get the detail of task
+     * @return detail of task in String
+     */
     public String get_detail(){
         String box = "[ ] ";
         if (done){
@@ -51,10 +79,17 @@ public class Task {
         return type+box+description;
     }
 
+    /**
+     * function used to print detail
+     */
     public void print_detail(){
         System.out.println(get_detail());
     }
 
+    /**
+     * convert all tasks into Strings for written data
+     * @return converted string
+     */
     public String write_detail(){
         String split = " | ";
         String status = "0";
@@ -64,6 +99,10 @@ public class Task {
         return type.charAt(1)+split+status+split+description;
     }
 
+    /**
+     * obtain description of task
+     * @return description in String
+     */
     public String getDescription(){
         return description;
     }

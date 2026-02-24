@@ -10,14 +10,24 @@ import freddy.exception.FreddyException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * class UI defines user interaction
+ */
 public class UI {
     private static String reply;
     private static StringProcess sp;
+
+    /**
+     * creates UI instance
+     */
     public UI(){
         reply = "Freddy: ";
         sp = new StringProcess();
     }
 
+    /**
+     * greet user for entering app
+     */
     public static void greet(){
         String logo = ""+
                 "  _____   _____   ______  ____    ____   __   __\n" +
@@ -32,17 +42,29 @@ public class UI {
         printline();
     }
 
+    /**
+     * print line for formatting purpose
+     */
     public static void printline(){
         System.out.println("-----------------------------------------------");
     }
 
+    /**
+     * end program and greet user
+     */
     public static void bye(){
         printline();
         System.out.println(reply+"Bye. Hope to see you again soon!");
         printline();
     }
 
-    public static String respond() throws FreddyException {
+    /**
+     * the main user interaction interface
+     * @param freddy, the program instance
+     * @return result, bye indicates end program
+     * @throws FreddyException, specify potential error in program
+     */
+    public static String respond(Freddy freddy) throws FreddyException {
         Scanner scan = new Scanner(System.in);
         String str = scan.nextLine();
         boolean rewrite;
@@ -148,12 +170,12 @@ public class UI {
                 break;
             default:
                 System.out.println(reply+" Please start your sentence with commands.");
-                System.out.println(reply+"Commands avaiable: list, mark, unmark, todo, event, deadline, find, bye");
+                System.out.println(reply+"Commands avaiable: list, mark, unmark, todo, event, deadline, delete, find, bye");
                 rewrite = false;
             }
             printline();
             if (rewrite){
-                Freddy.io.writeAll(Freddy.todo.getList());
+                freddy.getIO().writeAll(Freddy.todo.getList());
             }
             str = scan.nextLine();
         }
@@ -161,18 +183,30 @@ public class UI {
         return str;
     }
 
+    /**
+     * prompt user when adding task
+     * @param str, the added task info
+     */
     public static void addPrompt(String str){
         System.out.println(reply+str+" is added for you");
         Freddy.todo.get(Freddy.todo.getSize()-1).print_detail();
         System.out.println(reply+"You have "+String.valueOf(Freddy.todo.getSize())+" tasks in the list now");
     }
 
+    /**
+     * prompt user when deleting task
+     * @param i, the index of deleted task
+     */
     public static void deletePrompt(int i){
         System.out.println(reply+"Sure, the following task will be removed: ");
         Freddy.todo.get(i).print_detail();
         Freddy.todo.removeIndex(i);
     }
 
+    /**
+     * print out entire task list for reference
+     * @param t, task list to print
+     */
     public static void printList(ArrayList<Task> t){
         for (int i = 0; i < t.size(); i++) {
             System.out.println(String.valueOf(i + 1) + ". " +t.get(i).get_detail());
