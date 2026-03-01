@@ -7,7 +7,7 @@ import freddy.task.Task;
  * the Tasklist class is used to manage the tasks in todo list
  */
 public class Tasklist {
-    private ArrayList<Task> todo = new ArrayList<Task>();
+    private ArrayList<Task> todos = new ArrayList<Task>();
     private int size;
 
     /**
@@ -23,16 +23,16 @@ public class Tasklist {
      */
     public void update(ArrayList<Task> td){
         if (!td.isEmpty()){
-            todo = td;
+            todos = td;
         }
-        size = todo.size();
+        size = todos.size();
     }
 
     /**
      * Clean the app's data
      */
     public void clear(){
-        todo = new ArrayList<Task>();
+        todos = new ArrayList<Task>();
     }
 
     /**
@@ -40,7 +40,7 @@ public class Tasklist {
      * @return list of tasks
      */
     public ArrayList<Task> getList(){
-        return todo;
+        return todos;
     }
 
     /**
@@ -49,7 +49,7 @@ public class Tasklist {
      * @return corresponding task
      */
     public Task get(int i){
-        return todo.get(i);
+        return todos.get(i);
     }
 
     /**
@@ -65,7 +65,7 @@ public class Tasklist {
      * @param s, new task to be added
      */
     public void addElement(Task s){
-        todo.add(s);
+        todos.add(s);
         size++;
     }
 
@@ -74,7 +74,7 @@ public class Tasklist {
      * @param i, the index of task to be removed
      */
     public void removeIndex(int i){
-        todo.remove(i);
+        todos.remove(i);
         size-=1;
     }
 
@@ -85,7 +85,7 @@ public class Tasklist {
      */
     public ArrayList<Task> find(String keyword){
         ArrayList<Task> temp = new ArrayList<>();
-        for (Task t: todo){
+        for (Task t: todos){
             if (t.getDescription().contains(keyword)){
                 temp.add(t);
             }
