@@ -8,7 +8,7 @@ import freddy.Freddy;
 public class Task {
     private String description;
     private String type;
-    private boolean done = false;
+    private boolean isDone = false;
 
     /**
      * Create a task instance based on description and type
@@ -33,23 +33,23 @@ public class Task {
      * Create task instance including type and status
      * @param description, content of task
      * @param type, type of task
-     * @param done, true if it is done
+     * @param isDone, true if it is done
      */
     public Task(String description, String type, boolean done){
         this.description = description;
         this.type = type;
-        this.done = done;
+        this.isDone = done;
     }
 
     /**
      * Set the task's status to done
      */
     public void check(){
-        if (done){
+        if (isDone){
             System.out.println(Freddy.reply+"Seems that it has already been checked!");
             return ;
         }
-        done = true;
+        isDone = true;
         System.out.println(Freddy.reply+"Sure, this task is checked for you");
         print_detail();
     }
@@ -58,11 +58,11 @@ public class Task {
      * Set the task's status to not done
      */
     public void uncheck(){
-        if (!done){
+        if (!isDone){
             System.out.println(Freddy.reply+"Seems that it hasn't been checked yet!");
             return ;
         }
-        done = false;
+        isDone = false;
         System.out.println(Freddy.reply+"OK, remember to do it later");
         print_detail();
     }
@@ -73,7 +73,7 @@ public class Task {
      */
     public String get_detail(){
         String box = "[ ] ";
-        if (done){
+        if (isDone){
             box = "[X] ";
         }
         return type+box+description;
@@ -93,7 +93,7 @@ public class Task {
     public String write_detail(){
         String split = " | ";
         String status = "0";
-        if (done){
+        if (isDone){
             status = "1";
         }
         return type.charAt(1)+split+status+split+description;
