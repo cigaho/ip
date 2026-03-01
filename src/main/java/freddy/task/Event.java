@@ -28,8 +28,8 @@ public class Event extends Task {
      * @param end, end time
      * @param done, is done
      */
-    public Event(String description, String start,String end, boolean done){
-        super(description,"[E]",done);
+    public Event(String description, String start,String end, boolean isDone){
+        super(description,"[E]",isDone);
         this.start = start;
         this.end = end;
     }
