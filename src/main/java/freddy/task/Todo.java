@@ -19,7 +19,7 @@ public class Todo extends Task {
     /**
      * creates todo instance specifying is done
      * @param description, description of task
-     * @param done, is done
+     * @param isDone, is done
      */
-    public Todo(String description, boolean done){super(description, "[T]", done);}
+    public Todo(String description, boolean isDone){super(description, "[T]", isDone);}
 }
