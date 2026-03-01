@@ -26,7 +26,7 @@ public class Event extends Task {
      * @param description, description of event
      * @param start, start time
      * @param end, end time
-     * @param done, is done
+     * @param isDone, is done
      */
     public Event(String description, String start,String end, boolean isDone){
         super(description,"[E]",isDone);
