@@ -24,8 +24,8 @@ public class Deadline extends Task {
      * @param ddl, due time
      * @param done, true stands for finished
      */
-    public Deadline(String description, String ddl, boolean done){
-        super(description,"[D]",done);
+    public Deadline(String description, String ddl, boolean isDone){
+        super(description,"[D]",isDone);
         date = ddl;
     }
 
