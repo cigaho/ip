@@ -70,7 +70,7 @@ Freddy automatically saves tasks to `data/Freddy.txt` in the same folder as the 
 | `todo`    | `t`   | Add todo       |
 | `deadline`| `ddl` | Add deadline   |
 | `event`   | `e`   | Add event      |
-| `list`    |       | List tasks     |
+| `list`    | `l`   | List tasks     |
 | `mark`    | `check`| Mark as done  |
 | `unmark`  | `uncheck`| Unmark task  |
 | `delete`  | `d`   | Delete task    |
