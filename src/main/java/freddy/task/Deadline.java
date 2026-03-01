@@ -22,7 +22,7 @@ public class Deadline extends Task {
      * create a deadline specifying if it's done
      * @param description, description of deadline
      * @param ddl, due time
-     * @param done, true stands for finished
+     * @param isDone, true stands for finished
      */
     public Deadline(String description, String ddl, boolean isDone){
         super(description,"[D]",isDone);
